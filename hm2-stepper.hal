@@ -29,7 +29,7 @@
 loadrt trivkins
 
 # motion controller, get name and thread periods from ini file
-loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AXES
+loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AXES num_dio=10
 
 # only the 7i43 and 7i90 need this, but it doesnt hurt the others
 loadrt probe_parport
@@ -214,8 +214,13 @@ net dout1 motion.digital-out-01 => hm2_5i25.0.7i76.0.0.output-14
 
 
 # ##################################################
-# Front-Panel I/O  
+# Misc I/O  
 # ##################################################
 
+# Gas Triggers
 net dout2 motion.digital-out-02 => hm2_5i25.0.7i76.0.0.output-00
+net dout3 motion.digital-out-03 => hm2_5i25.0.7i76.0.0.output-01
+
+# Laser Modulation
+net dout4 motion.digital-out-04 => hm2_5i25.0.7i76.0.0.output-06
 
