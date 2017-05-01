@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+
+import sys
+import json
+import urllib2
+
+POWDERFEEDER_URL = "http://192.168.1.102:8080"
+
+if len(sys.argv) != 3:
+	print sys.argv[0] + ": Invalid number of arguments"
+	exit(-1)
+
+feederIndex = int(sys.argv[1])
+feederSetpoint = float(sys.argv[2])
+
+if feederIndex < 0 or feederIndex > 2:
+	print sys.argv[0] + ": Invalid P value (feeder index number)"
+	exit(-1)
+
+if feederSetpoint > 0.0:
+	settings = {
+		"feeder" + str(feederIndex) + "_on" : "true",
+		"feeder" + str(feederIndex) + "_setpoint" : feederSetpoint
+	}
+else:
+	settings = {
+		"feeder" + str(feederIndex) + "_on" : "false",
+		"feeder" + str(feederIndex) + "_setpoint" : "0.00"
+	}
+
+req = urllib2.Request(POWDERFEEDER_URL)
+req.add_header('Content-Type', 'application/json')
+
+with open('test.txt', 'w') as f:
+	f.write(json.dumps(settings))
+	f.write('\n')
+
+#response = urllib2.urlopen(req, json.dumps(data))

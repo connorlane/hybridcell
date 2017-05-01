@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+import sys
+import ipglaser
+import time
+
+LASER_ON_DWELL = 1.5
+
+laserDriver = ipglaser.IPGLaser("/dev/ttyS0")
+
+if len(sys.argv) != 3:
+	print sys.argv[0] + ": Invalid number of arguments"
+	exit(-1)
+
+powerLevel = float(sys.argv[1])
+
+laserOn = int(float(sys.argv[2]))
+
+if powerLevel >= 0.0:
+	if powerLevel > 100.0:
+		powerLevel = 100.0
+	laserDriver.SetDiodeCurrent(powerLevel)
+	print "LASER POWER: " + str(powerLevel)
+
+if laserOn == 1:
+	laserDriver.StartEmission()
+	#time.sleep(LASER_ON_DWELL)
+	print "LASER ON"
+else:
+	laserDriver.StopEmission()
+	print "LASER OFF"
+
